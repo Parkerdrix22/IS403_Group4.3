@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>Login Page</title>
+ <!-- Bootstrap CSS -->
+ <link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+ <style>
+  body {
+   background-color: #ffffff;
+   min-height: 100vh;
+   margin: 0;
+  }
+  .split-container {
+   display: flex;
+   min-height: 100vh;
+  }
+  .left-panel {
+   flex: 0 0 65%;
+   background-color: #ffffff;
+   background-image: url('/login_background.jpg');
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 4rem 2rem;
+  }
+  .right-panel {
+   flex: 0 0 35%;
+   background: rgb(3, 19, 0);
+   color: #ffffff;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 4rem 2rem;
+   text-align: center;
+  }
+  .login-card {
+   max-width: 500px;
+   width: 100%;
+   padding: 2rem;
+   border-radius: 1rem;
+   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+   background-color: #fff;
+  }
+  h3.login-title {
+   font-weight: bold;
+   letter-spacing: clamp(0.25rem, 0.5vw, 0.75rem);
+   text-transform: uppercase;
+   color: rgb(3, 19, 0);
+  }
+  .hero-copy {
+   max-width: 520px;
+  }
+  .hero-welcome {
+   font-family: 'DM Serif Display', serif;
+   letter-spacing: clamp(0.25rem, 0.8vw, 0.75rem);
+   font-size: clamp(2rem, 5vw, 3.5rem);
+   margin: 0 0 2rem 0;
+  }
+  .hero-title {
+   font-weight: bold;
+   letter-spacing: clamp(0.25rem, 0.8vw, 0.75rem);
+   text-transform: uppercase;
+   font-size: clamp(0.875rem, 2.5vw, 1.25rem);
+   margin-bottom: 1rem;
+  }
+  .hero-subtext {
+   font-size: clamp(1rem, 1.5vw, 1.125rem);
+   line-height: 1.6;
+   opacity: .95;
+  }
+  .form-control:focus {
+   border-color: #7bc47f;
+   box-shadow: 0 0 0 .25rem rgba(123, 196, 127, .35);
+  }
+  .form-control:hover {
+   border-color: #7bc47f;
+  }
+  .btn-primary {
+   background-color: rgb(3, 19, 0);
+   border-color: rgb(3, 19, 0);
+  }
+  .btn-primary:hover,
+  .btn-primary:focus {
+   background-color: #0f4d1c;
+   border-color: #0f4d1c;
+  }
+
+  /* Responsive */
+  @media (max-width: 992px) {
+   .split-container {
+    flex-direction: column;
+   }
+   .left-panel, .right-panel {
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 3rem 1.25rem;
+   }
+   .right-panel {
+    order: 2; /* keep the form on top, hero below */
+   }
+  }
+  @media (max-width: 576px) {
+   .login-card {
+    padding: 1.5rem;
+   }
+   .hero-title { letter-spacing: .1rem; }
+  }
+ </style>
+</head>
+<body>
+ <div class="split-container">
+  <section class="left-panel">
+   <div class="login-card">
+    <h3 class="login-title text-center mb-4">MEMBER LOGIN</h3>
+    <% if (typeof error_message !== 'undefined' && error_message) { %>
+     <div class="alert alert-danger" role="alert"><%= error_message %></div>
+    <% } %>
+    <br>
+    <form method="POST" action="/login">
+     <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" id="username" name="username" class="form-control" required autofocus>
+     </div>
+     <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" id="password" name="password" class="form-control" required>
+     </div>
+     <div class="d-grid">
+      <button type="submit" class="btn btn-primary">Login</button>
+     </div>
+    </form>
+   </div>
+  </section>
+  <section class="right-panel">
+   <div class="hero-copy">
+    <div class="hero-welcome">Welcome</div>
+    <h1 class="hero-title">Hillcrest 8th Ward Elders Quorum</h1>
+    <p class="hero-subtext">This site helps you stay connected with Elders Quorum—announcements, quick surveys, and resources designed to support ministering and draw closer to Jesus Christ.</p>
+   </div>
+  </section>
+ </div>
+ <!-- Bootstrap JS -->
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

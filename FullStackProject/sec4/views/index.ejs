@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elders Quorum</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        /* Main Content Padding */
+        main {
+            padding: 20px;
+            margin-top: calc(var(--header-height, 4rem) + 1.5rem);
+            flex: 1;
+        }
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* CSS variables and general body styling */
+        :root {
+            --header-height: 4rem;
+            --footer-height: 4rem;
+        }
+        /* General Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(3, 19, 0);
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 300vh;
+            color: white;
+            letter-spacing: .25rem;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+        }
+        /* Header Styling */
+        header {
+            color: black;
+            height: var(--header-height);
+            position: absolute;
+            top: 0;
+            left: 0%;
+            width: 60%;
+            text-align: center;
+            background-color: white;
+            display: flex;
+            align-items: center;
+        }
+        /* Footer Styling (Sticky Footer) */
+        footer {
+            background-color: white;
+            color: black;
+            min-height: var(--footer-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0 0 0 2rem;
+            margin: 0;
+            display: flex;
+            gap: 2rem;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        nav ul li {
+            display: inline-flex;
+        }
+        nav ul li a {
+            color: black;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Heading */
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2rem, 8vw, 5rem);
+            font-weight: 400;
+            letter-spacing: clamp(0.25rem, 1vw, 1rem);
+            position: absolute;
+            top: 65vh;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        /* Left Image Container */
+        .left-image-container {
+            position: absolute;
+            top: 42vh;
+            left: 15vw;
+            transform: translateY(-50%);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* Left Image Text Styling */
+        .left-image-text {
+            font-size: clamp(0.875rem, 2.5vw, 1.25rem);
+            font-weight: bold;
+            color: white;
+            letter-spacing: clamp(0.25rem, 0.8vw, 0.75rem);
+            white-space: nowrap;
+            margin-bottom: 1vh;
+        }
+        /* Left Image Styling */
+        .left-image {
+            height: 30vh;
+            width: 30vw;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .left-image img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+        /* Right Image Styling */
+        .right-image {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            height: 100%;
+            width: 40%;
+            z-index: -1;
+        }
+        .right-image img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        /* Announcement Section Styling */
+        #announcements {
+            padding: 10vh 0vw;
+            background: linear-gradient(to bottom, rgb(3, 19, 0) 0%, rgb(255, 255, 255) 40%);
+            color: white;
+            width: 100%;
+            min-height: 50vh;
+            position: relative;
+        }
+        #announcements h2 {
+            font-family: 'DM Serif Display', serif;
+            font-weight: 400;
+            font-size: 5vw;
+            margin-bottom: 4vw;
+            letter-spacing: 0.5rem;
+        }
+        .announcement-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10vw;
+            place-content: center;
+            width: 100%;
+            max-width: 80vw;
+            margin: 0 auto;
+        }
+        .announcement-box {
+            background-color: white;
+            color: black;
+            border-color: black;
+            width: 90%;
+            max-width: 40vw;
+            height: 40vh;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .urgent-box { grid-column: 2; grid-row: 1; }
+        .events-box { grid-column: 1; grid-row: 2; }
+        .announcement-box img {
+            width: 140%;
+            height: 120%;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .announcement1-box { grid-column: 1; grid-row: 1; }
+        .announcement2-box { grid-column: 2; grid-row: 2; }
+        .top-right-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 4vw;
+            font-weight: 400;
+            letter-spacing: 1rem;
+            position: absolute;
+            top: 0vh;
+            right: 19vw;
+            transform: translateX(50%);
+            white-space: nowrap;
+            color: white;
+        }
+        /* Calendar Section */
+        .calendar-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .calendar-container { width: 80%; }
+        .calendar-container iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            :root {
+                --header-height: 3.5rem;
+                --footer-height: 3.5rem;
+            }
+            body {
+                min-height: auto;
+            }
+            header {
+                position: fixed;
+                width: 100%;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+            }
+            main {
+                margin-top: calc(var(--header-height) + 1rem);
+                padding: 16px;
+            }
+            h1 {
+                position: static;
+                transform: none;
+                font-size: clamp(1.75rem, 8vw, 3rem);
+                letter-spacing: clamp(0.2rem, 0.8vw, 0.5rem);
+                margin: 10vh 0 2rem 0;
+                white-space: normal;
+            }
+            .left-image-container {
+                position: static;
+                top: auto;
+                left: auto;
+                transform: none;
+                margin: 0 auto 2rem auto;
+                width: 100%;
+                max-width: 800px;
+                padding: 0; /* remove side padding so content is truly centered */
+            }
+            .left-image-text {
+                font-size: clamp(1rem, 4vw, 1.125rem);
+                letter-spacing: clamp(0.2rem, 0.6vw, 0.4rem);
+            }
+            .left-image {
+                width: min(92vw, 600px);
+                height: auto;
+                margin: 0 auto; /* center the image container */
+            }
+            .left-image img {
+                display: block; /* remove inline-gap */
+                width: 100%;
+                height: auto;
+                margin: 0 auto; /* ensure centered image */
+            }
+            .right-image {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            :root {
+                --header-height: 3.25rem;
+                --footer-height: 3.25rem;
+            }
+            nav ul {
+                padding-left: 1rem;
+                gap: 1rem;
+            }
+            h1 {
+                font-size: clamp(1.5rem, 10vw, 2.25rem);
+                letter-spacing: clamp(0.15rem, 0.6vw, 0.25rem);
+                margin-top: 12vh;
+            }
+            .left-image-text {
+                font-size: clamp(0.9rem, 5vw, 1rem);
+                letter-spacing: clamp(0.15rem, 0.5vw, 0.25rem);
+            }
+            .left-image {
+                width: 90vw; /* slightly narrower on very small screens */
+            }
+        }
+    </style>
+    <script>
+        // Prevent editing persistence for contenteditable placeholders on reload (optional safety)
+        document.addEventListener('DOMContentLoaded', function() {
+            // no-op placeholder
+        });
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/logout">LOGOUT</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Main Content -->
+    <main>
+        <h1>Elders Quorum</h1>
+        <!-- Left Image with Words Above it -->
+        <div class="left-image-container">
+            <div class="left-image-text">
+                <p>HILLCREST 8th WARD</p>
+            </div>
+            <div class="left-image">
+                <img src="/left-image.jpg" alt="Left Side Image">
+            </div>
+        </div>
+        <!-- Image on the right side -->
+        <div class="right-image">
+            <img src="/right-image.jpg" alt="Right Side Image">
+        </div>
+        <% if (typeof show_announcements !== 'undefined' && show_announcements) { %>
+        <section id="announcements">
+            <h2>Announcements</h2>
+            <div class="announcement-container">
+                <div class="announcement-box announcement1-box">
+                    <img src="/announcement1.jpg" alt="Announcement 1">
+                </div>
+                <div class="announcement-box urgent-box">
+                    <h3>TOPICS TO DISCUSS</h3>
+                    <p contenteditable="true">Click here to edit urgent topic details...</p>
+                </div>
+                <div class="announcement-box events-box">
+                    <h3>UPCOMING EVENTS</h3>
+                    <p contenteditable="true">Click here to edit upcoming event details...</p>
+                </div>
+                <div class="announcement-box announcement2-box">
+                    <img src="/announcement2.jpg" alt="Announcement 2">
+                </div>
+            </div>
+        </section>
+        <% } %>
+    </main>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 HILLCREST 8TH WARD ELDERS QUORUM</p>
+    </footer>
+</body>
+</html>
