@@ -24,18 +24,27 @@
   .left-panel {
    flex: 0 0 65%;
    background-color: #ffffff;
-   background-image: url('/login_background.jpg');
-   background-size: cover;
-   background-position: center;
-   background-repeat: no-repeat;
+   position: relative;
+   overflow: hidden;
    display: flex;
    align-items: center;
    justify-content: center;
    padding: 4rem 2rem;
   }
+  /* mirrored background image without flipping content */
+  .left-panel::before {
+   content: "";
+   position: absolute;
+   inset: 0;
+   background-image: url('/login_background.jpg');
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   transform: scaleX(-1);
+  }
   .right-panel {
    flex: 0 0 35%;
-   background: rgb(3, 19, 0);
+   background: rgb(6, 40, 0);
    color: #ffffff;
    display: flex;
    align-items: center;
@@ -44,17 +53,24 @@
    text-align: center;
   }
   .login-card {
-   max-width: 500px;
+   max-width: 700px;
    width: 100%;
    padding: 2rem;
    border-radius: 1rem;
    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
    background-color: #fff;
+   position: relative;
+   z-index: 1; /* keep above mirrored background */
+  }
+  /* Slightly narrower fields/button than the card */
+  .form-width {
+   width: min(92%, 420px);
+   margin: 0 auto;
   }
   h3.login-title {
-   font-weight: bold;
-   letter-spacing: clamp(0.25rem, 0.5vw, 0.75rem);
-   text-transform: uppercase;
+   font-family: 'DM Serif Display', serif;
+    letter-spacing: clamp(0.1rem, 0.3vw, 0.5rem);
+    font-size: clamp(2.25rem, 3.5vw, 2.75rem);
    color: rgb(3, 19, 0);
   }
   .hero-copy {
@@ -85,14 +101,24 @@
   .form-control:hover {
    border-color: #7bc47f;
   }
+  /* Keep Bootstrap button green across hover/focus/active using CSS variables */
   .btn-primary {
-   background-color: rgb(3, 19, 0);
-   border-color: rgb(3, 19, 0);
+   --bs-btn-bg:  rgb(6, 40, 0);
+   --bs-btn-border-color:  rgb(6, 40, 0);
+   --bs-btn-hover-bg: #0f4d1c;
+   --bs-btn-hover-border-color: #0f4d1c;
+   --bs-btn-active-bg: #0c3d16;
+   --bs-btn-active-border-color: #0c3d16;
+   --bs-btn-focus-shadow-rgb: 15, 77, 28; /* green-ish focus ring */
+   background-color: var(--bs-btn-bg);
+   border-color: var(--bs-btn-border-color);
   }
   .btn-primary:hover,
-  .btn-primary:focus {
-   background-color: #0f4d1c;
-   border-color: #0f4d1c;
+  .btn-primary:focus,
+  .btn-primary:active,
+  .btn-primary:focus-visible {
+   background-color: var(--bs-btn-hover-bg);
+   border-color: var(--bs-btn-hover-border-color);
   }
 
   /* Responsive */
@@ -114,6 +140,7 @@
     padding: 1.5rem;
    }
    .hero-title { letter-spacing: .1rem; }
+   .form-width { width: 100%; }
   }
  </style>
 </head>
@@ -121,22 +148,65 @@
  <div class="split-container">
   <section class="left-panel">
    <div class="login-card">
-    <h3 class="login-title text-center mb-4">MEMBER LOGIN</h3>
+    <h3 class="login-title text-center mb-4">Member Login</h3>
     <% if (typeof error_message !== 'undefined' && error_message) { %>
      <div class="alert alert-danger" role="alert"><%= error_message %></div>
     <% } %>
     <br>
-    <form method="POST" action="/login">
-     <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input type="text" id="username" name="username" class="form-control" required autofocus>
+    <form id="login-form" method="POST" action="/login">
+     <div class="form-width">
+      <div class="mb-3">
+       <label for="username" class="form-label">Username</label>
+       <input type="text" id="username" name="username" class="form-control" required autofocus>
+      </div>
+      <div class="mb-3">
+       <label for="password" class="form-label">Password</label>
+       <input type="password" id="password" name="password" class="form-control" required>
+      </div>
+      <div class="d-grid">
+       <button type="submit" class="btn btn-primary">Login</button>
+      </div>
      </div>
-     <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" id="password" name="password" class="form-control" required>
-     </div>
-     <div class="d-grid">
-      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
+   <div id="signup-toggle-container" class="text-center mt-4">
+     <button id="show-signup" type="button" class="btn btn-link" style="color: rgb(3, 19, 0); text-decoration: none;">Create an account</button>
+    </div>
+
+    <form id="signup-form" method="POST" action="/signup" style="display:none;">
+     <div class="form-width">
+      <div class="row g-3">
+       <div class="col-12 col-sm-6">
+        <label for="firstName" class="form-label">First name</label>
+        <input type="text" id="firstName" name="firstName" class="form-control" required>
+       </div>
+       <div class="col-12 col-sm-6">
+        <label for="lastName" class="form-label">Last name</label>
+        <input type="text" id="lastName" name="lastName" class="form-control" required>
+       </div>
+      </div>
+      <div class="mb-3 mt-3">
+       <label for="phone" class="form-label">Phone number</label>
+       <input type="tel" id="phone" name="phone" class="form-control" placeholder="###-###-####" pattern="[0-9\-\s\(\)]{7,}" required>
+      </div>
+      <div class="mb-3">
+       <label for="email" class="form-label">Email</label>
+       <input type="email" id="email" name="email" class="form-control" required>
+      </div>
+      <div class="mb-3">
+       <label for="newUsername" class="form-label">Username</label>
+       <input type="text" id="newUsername" name="username" class="form-control" required>
+      </div>
+      <div class="mb-3">
+       <label for="newPassword" class="form-label">Password</label>
+       <input type="password" id="newPassword" name="password" class="form-control" required>
+      </div>
+      <div class="d-grid">
+       <button type="submit" class="btn btn-primary">Sign Up</button>
+      </div>
+      <div class="text-center mt-3">
+       <button type="button" id="back-to-login" class="btn btn-link" style="color: rgb(3, 19, 0); text-decoration: none;">Back to login</button>
+      </div>
      </div>
     </form>
    </div>
@@ -151,5 +221,27 @@
  </div>
  <!-- Bootstrap JS -->
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+ <script>
+  // Toggle between login and signup forms
+  (function(){
+    const showSignupBtn = document.getElementById('show-signup');
+    const backToLoginBtn = document.getElementById('back-to-login');
+    const signupToggle = document.getElementById('signup-toggle-container');
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    if (showSignupBtn && backToLoginBtn && signupToggle && loginForm && signupForm) {
+      showSignupBtn.addEventListener('click', function(){
+        signupToggle.style.display = 'none';
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+      });
+      backToLoginBtn.addEventListener('click', function(){
+        signupForm.style.display = 'none';
+        loginForm.style.display = 'block';
+        signupToggle.style.display = 'block';
+      });
+    }
+  })();
+ </script>
 </body>
 </html>

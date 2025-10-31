@@ -29,7 +29,7 @@
             text-align: center;
             margin: 0;
             padding: 0;
-            background-color: rgb(3, 19, 0);
+            background-color: rgb(6, 40, 0);
             background-position: center;
             background-repeat: no-repeat;
             min-height: 300vh;
@@ -123,14 +123,13 @@
         .left-image {
             height: 30vh;
             width: 30vw;
-            border-radius: 20px;
             overflow: hidden;
+            border: 3px solid #ffffff;
         }
         .left-image img {
             height: 100%;
             width: 100%;
             object-fit: cover;
-            border-radius: 20px;
         }
         /* Right Image Styling */
         .right-image {
@@ -147,84 +146,7 @@
             width: 100%;
             object-fit: cover;
         }
-        /* Announcement Section Styling */
-        #announcements {
-            padding: 10vh 0vw;
-            background: linear-gradient(to bottom, rgb(3, 19, 0) 0%, rgb(255, 255, 255) 40%);
-            color: white;
-            width: 100%;
-            min-height: 50vh;
-            position: relative;
-        }
-        #announcements h2 {
-            font-family: 'DM Serif Display', serif;
-            font-weight: 400;
-            font-size: 5vw;
-            margin-bottom: 4vw;
-            letter-spacing: 0.5rem;
-        }
-        .announcement-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10vw;
-            place-content: center;
-            width: 100%;
-            max-width: 80vw;
-            margin: 0 auto;
-        }
-        .announcement-box {
-            background-color: white;
-            color: black;
-            border-color: black;
-            width: 90%;
-            max-width: 40vw;
-            height: 40vh;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        .urgent-box { grid-column: 2; grid-row: 1; }
-        .events-box { grid-column: 1; grid-row: 2; }
-        .announcement-box img {
-            width: 140%;
-            height: 120%;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .announcement1-box { grid-column: 1; grid-row: 1; }
-        .announcement2-box { grid-column: 2; grid-row: 2; }
-        .top-right-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: 4vw;
-            font-weight: 400;
-            letter-spacing: 1rem;
-            position: absolute;
-            top: 0vh;
-            right: 19vw;
-            transform: translateX(50%);
-            white-space: nowrap;
-            color: white;
-        }
-        /* Calendar Section */
-        .calendar-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-        }
-        .calendar-container { width: 80%; }
-        .calendar-container iframe {
-            width: 100%;
-            height: 800px;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+      
 
         /* Responsive adjustments */
         @media (max-width: 992px) {
@@ -339,27 +261,6 @@
         <div class="right-image">
             <img src="/right-image.jpg" alt="Right Side Image">
         </div>
-        <% if (typeof show_announcements !== 'undefined' && show_announcements) { %>
-        <section id="announcements">
-            <h2>Announcements</h2>
-            <div class="announcement-container">
-                <div class="announcement-box announcement1-box">
-                    <img src="/announcement1.jpg" alt="Announcement 1">
-                </div>
-                <div class="announcement-box urgent-box">
-                    <h3>TOPICS TO DISCUSS</h3>
-                    <p contenteditable="true">Click here to edit urgent topic details...</p>
-                </div>
-                <div class="announcement-box events-box">
-                    <h3>UPCOMING EVENTS</h3>
-                    <p contenteditable="true">Click here to edit upcoming event details...</p>
-                </div>
-                <div class="announcement-box announcement2-box">
-                    <img src="/announcement2.jpg" alt="Announcement 2">
-                </div>
-            </div>
-        </section>
-        <% } %>
     </main>
     <!-- Footer -->
     <footer>
