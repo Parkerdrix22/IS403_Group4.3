@@ -222,26 +222,29 @@
  <!-- Bootstrap JS -->
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
  <script>
-  // Toggle between login and signup forms
-  (function(){
-    const showSignupBtn = document.getElementById('show-signup');
-    const backToLoginBtn = document.getElementById('back-to-login');
-    const signupToggle = document.getElementById('signup-toggle-container');
-    const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-    if (showSignupBtn && backToLoginBtn && signupToggle && loginForm && signupForm) {
-      showSignupBtn.addEventListener('click', function(){
-        signupToggle.style.display = 'none';
-        loginForm.style.display = 'none';
-        signupForm.style.display = 'block';
-      });
-      backToLoginBtn.addEventListener('click', function(){
-        signupForm.style.display = 'none';
-        loginForm.style.display = 'block';
-        signupToggle.style.display = 'block';
-      });
-    }
-  })();
+	 // Toggle between login and signup forms
+	 (function(){
+	   const showSignupBtn = document.getElementById('show-signup');
+	   const backToLoginBtn = document.getElementById('back-to-login');
+	   const signupToggle = document.getElementById('signup-toggle-container');
+	   const loginForm = document.getElementById('login-form');
+	   const signupForm = document.getElementById('signup-form');
+	   const headerTitle = document.querySelector('.login-title');
+	   if (showSignupBtn && backToLoginBtn && signupToggle && loginForm && signupForm) {
+	     showSignupBtn.addEventListener('click', function(){
+	       signupToggle.style.display = 'none';
+	       loginForm.style.display = 'none';
+	       signupForm.style.display = 'block';
+	       if (headerTitle) headerTitle.textContent = 'Sign Up';
+	     });
+	     backToLoginBtn.addEventListener('click', function(){
+	       signupForm.style.display = 'none';
+	       loginForm.style.display = 'block';
+	       signupToggle.style.display = 'block';
+	       if (headerTitle) headerTitle.textContent = 'Member Login';
+	     });
+	   }
+	 })();
  </script>
 </body>
 </html>
