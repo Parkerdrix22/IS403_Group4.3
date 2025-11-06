@@ -23,6 +23,19 @@ app.use(
     )
 );
 
+const knex = require("knex")({
+    client: "mysql2",
+    connection: {
+        host : process.env.DB_HOST || "52.91.152.147",
+        user : process.env.DB_USER || "IS403",
+        password : process.env.DB_PASSWORD || "admin123",
+        database : process.env.DB_NAME || "sys",
+        port : process.env.DB_PORT || 3306
+    }
+});
+
+knex.select().from("users")
+
 app.use(express.urlencoded({extended: true}));
 
 app.use(express.static(path.join(__dirname, 'public')));
