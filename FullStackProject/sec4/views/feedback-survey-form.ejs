@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey - <%= lesson.lessonname %> - Elders Quorum</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --eq-green: rgb(6, 40, 0);
+            --eq-tan: white;
+            --header-height: 4rem;
+            --footer-height: 5rem;
+        }
+
+        body {
+            background-color: white;
+            color: rgb(6, 40, 0);
+            font-family: Arial, sans-serif;
+            background-image: url('/login_background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: white;
+            color: rgb(6, 40, 0);
+            height: var(--header-height);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: rgb(6, 40, 0);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .login-pill {
+            background-color: rgb(6, 40, 0);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .login-pill:hover {
+            background-color: rgba(6, 40, 0, 0.8);
+            color: white;
+        }
+
+        .page-content {
+            margin-top: var(--header-height);
+            padding: 3rem 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .survey-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border: 2px solid rgb(6, 40, 0);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: rgb(6, 40, 0);
+        }
+
+        .lesson-info {
+            background-color: white;
+            border: 1px solid rgb(6, 40, 0);
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .lesson-info h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: rgb(6, 40, 0);
+        }
+
+        .question-group {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(6, 40, 0, 0.2);
+        }
+
+        .question-group:last-child {
+            border-bottom: none;
+        }
+
+        .question-group label {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: rgb(6, 40, 0);
+        }
+
+        .rating-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .rating-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rating-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .rating-option label {
+            font-weight: normal;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid rgb(6, 40, 0);
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background-color: rgb(6, 40, 0);
+            color: white;
+            border: 2px solid rgb(6, 40, 0);
+            padding: 1rem 3rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background-color: transparent;
+            color: rgb(6, 40, 0);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: rgb(6, 40, 0);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/dashboard">HOME</a></li>
+                <li><a href="/upcoming-lesson">UPCOMING LESSONS</a></li>
+                <li><a href="/feedback">FEEDBACK</a></li>
+            </ul>
+            <a href="/logout" class="login-pill">LOGOUT</a>
+        </nav>
+    </header>
+
+    <div class="page-content">
+        <a href="/feedback" class="back-link">← Back to Feedback</a>
+        
+        <div class="survey-container">
+            <h1>Lesson Survey</h1>
+            
+            <div class="lesson-info">
+                <h3><%= lesson.lessonname %></h3>
+                <p><strong>Date:</strong> <%= lesson.date %></p>
+                <% if (lesson.teacher && lesson.teacher !== 'N/A') { %>
+                    <p><strong>Teacher:</strong> <%= lesson.teacher %></p>
+                <% } %>
+            </div>
+
+            <form method="POST" action="/feedback/survey/<%= lesson.lessonid %>">
+                <% if (questions && questions.length > 0) { %>
+                    <% questions.forEach(function(qText, idx) { 
+                        const qKey = 'question_' + (idx + 1);
+                        const existing = existingResponses[qText] || {};
+                    %>
+                    <div class="question-group">
+                        <label><%= (idx + 1) %>. <%= qText %></label>
+                        <div class="rating-options">
+                            <div class="rating-option">
+                                <input type="radio" id="q<%= idx %>_1" name="<%= qKey %>" value="1" required <%= (existing.response == 1) ? 'checked' : '' %>>
+                                <label for="q<%= idx %>_1">1 - Poor</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q<%= idx %>_2" name="<%= qKey %>" value="2" required <%= (existing.response == 2) ? 'checked' : '' %>>
+                                <label for="q<%= idx %>_2">2 - Fair</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q<%= idx %>_3" name="<%= qKey %>" value="3" required <%= (existing.response == 3) ? 'checked' : '' %>>
+                                <label for="q<%= idx %>_3">3 - Good</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q<%= idx %>_4" name="<%= qKey %>" value="4" required <%= (existing.response == 4) ? 'checked' : '' %>>
+                                <label for="q<%= idx %>_4">4 - Very Good</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q<%= idx %>_5" name="<%= qKey %>" value="5" required <%= (existing.response == 5) ? 'checked' : '' %>>
+                                <label for="q<%= idx %>_5">5 - Excellent</label>
+                            </div>
+                        </div>
+                        <textarea name="comment_<%= idx + 1 %>" placeholder="Additional comments (optional)"><%= existing.extracomments ? existing.extracomments : '' %></textarea>
+                    </div>
+                    <% }); %>
+                <% } %>
+
+                <button type="submit" class="submit-btn">Submit Survey</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
