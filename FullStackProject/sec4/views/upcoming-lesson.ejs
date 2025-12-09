@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Lessons - Elders Quorum</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts - DM Serif Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --eq-green: rgb(6, 40, 0);
+            --eq-green-light: rgba(6, 40, 0, 0.8);
+            --eq-green-dark: rgb(3, 20, 0);
+            --eq-text: #ffffff;
+            --eq-white: #ffffff;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: white;
+            color: rgb(6, 40, 0);
+            background-image: url('/login_background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Wrapper for sticky footer */
+        .page-wrap {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* DM Serif Display for all titles and headers */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'DM Serif Display', serif;
+        }
+
+        /* Nav Bar Styling - Full Width */
+        header {
+            color: black;
+            height: 4rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav ul li {
+            display: inline-flex;
+        }
+
+        nav ul li a {
+            color: rgb(6, 40, 0);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .login-pill {
+            background-color: rgb(6, 40, 0);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .login-pill:hover {
+            background-color: rgba(6, 40, 0, 0.8);
+            color: white;
+        }
+
+        .page-content {
+            margin-top: 4rem;
+        }
+
+        /* Header Section */
+        .lessons-header {
+            background-color: rgb(6, 40, 0);
+            padding: 6rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lessons-header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .lessons-header p {
+            font-size: 1.2rem;
+            color: #ffffff;
+            max-width: 600px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Lessons Filters */
+        .lessons-filters {
+            max-width: 1400px;
+            margin: 0 auto 2rem;
+            padding: 2rem;
+            background-color: white;
+            border: 2px solid rgb(6, 40, 0);
+            border-radius: 1rem;
+        }
+
+        .filters-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: rgb(6, 40, 0);
+        }
+
+        .filters-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgb(6, 40, 0);
+            text-transform: uppercase;
+            letter-spacing: 0;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.75rem 1rem;
+            border: 2px solid rgb(6, 40, 0);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background-color: white;
+            color: rgb(6, 40, 0);
+            transition: border-color 0.3s ease;
+            min-width: 180px;
+        }
+
+        .filter-group input[type="text"] {
+            min-width: 250px;
+        }
+
+        .filter-group select:hover,
+        .filter-group select:focus,
+        .filter-group input:hover,
+        .filter-group input:focus {
+            outline: none;
+            border-color: rgb(6, 40, 0);
+            background-color: rgba(6, 40, 0, 0.05);
+        }
+
+        .filter-group select option {
+            background-color: white;
+            color: rgb(6, 40, 0);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-left: auto;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid rgb(6, 40, 0);
+            border-radius: 0.5rem;
+            background-color: transparent;
+            color: rgb(6, 40, 0);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: rgb(6, 40, 0);
+            color: white;
+        }
+
+        /* Teacher controls */
+        .lesson-card-edit-btn,
+        .lesson-card-delete-btn {
+            position: absolute;
+            top: 10px;
+            background-color: rgba(255, 255, 255, 0.96);
+            border: 2px solid rgba(6, 40, 0, 0.25);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            color: rgb(6, 40, 0);
+            font-size: 1rem;
+            z-index: 10;
+        }
+
+        .lesson-card-edit-btn {
+            right: 52px;
+        }
+
+        .lesson-card-delete-btn {
+            right: 12px;
+            border-color: rgba(200, 0, 0, 0.25);
+            color: #c0392b;
+        }
+
+        .lesson-card-edit-btn:hover {
+            background-color: rgb(6, 40, 0);
+            color: #fff;
+            border-color: rgb(6, 40, 0);
+        }
+
+        .lesson-card-delete-btn:hover {
+            background-color: #c0392b;
+            color: #fff;
+            border-color: #c0392b;
+        }
+
+        .add-lesson-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid rgb(6, 40, 0);
+            border-radius: 0.75rem;
+            background-color: rgb(6, 40, 0);
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 18px rgba(6, 40, 0, 0.2);
+            letter-spacing: 0;
+        }
+
+        .add-lesson-btn:hover {
+            background-color: rgb(3, 25, 0);
+            border-color: rgb(3, 25, 0);
+            box-shadow: 0 8px 20px rgba(3, 25, 0, 0.3);
+        }
+
+        /* Lessons Grid */
+        .lessons-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .lesson-card {
+            background-color: white;
+            border: 2px solid rgb(6, 40, 0);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 0.25rem 0.75rem rgba(6, 40, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1.5rem rgba(6, 40, 0, 0.4);
+        }
+
+        .lesson-image {
+            width: 100%;
+            height: 200px;
+            background-color: rgb(6, 40, 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'DM Serif Display', serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .lesson-content {
+            padding: 1.5rem;
+        }
+
+        .lesson-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: rgb(6, 40, 0);
+        }
+
+        .lesson-description {
+            font-size: 0.95rem;
+            color: rgb(6, 40, 0);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-date {
+            font-size: 0.85rem;
+            color: rgb(6, 40, 0);
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 992px) {
+            .lessons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lessons-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .lessons-header {
+                padding: 3rem 1.5rem;
+                min-height: 300px;
+            }
+
+            .lessons-filters {
+                padding: 1.5rem;
+                margin: 0 1rem 2rem;
+            }
+
+            .filters-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-group select,
+            .filter-group input {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .filter-buttons {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+
+            .filter-btn {
+                flex: 1;
+            }
+
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lessons-container {
+                padding: 0 1rem 3rem;
+            }
+
+            nav {
+                padding: 0 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/dashboard">HOME</a></li>
+                <li><a href="/upcoming-lesson">UPCOMING LESSONS</a></li>
+                <li><a href="/feedback">FEEDBACK</a></li>
+            </ul>
+            <a href="/logout" class="login-pill">LOGOUT</a>
+        </nav>
+    </header>
+    <div class="page-wrap page-content">
+    <!-- Lessons Header -->
+    <div class="lessons-header">
+        <h1>UPCOMING LESSONS</h1>
+        <p>Stay informed about our upcoming lessons and prepare to participate in meaningful discussions.</p>
+    </div>
+
+    <!-- Lessons Filters -->
+    <div class="lessons-filters">
+        <div class="filters-title">Filter Lessons</div>
+        <div class="filters-row">
+            <div class="filter-group">
+                <label for="lesson-search">Search Lesson Name</label>
+                <input type="text" id="lesson-search" class="lesson-filter" placeholder="Search by lesson name...">
+            </div>
+            <div class="filter-group">
+                <label for="lesson-topic">Topic</label>
+                <select id="lesson-topic" class="lesson-filter">
+                    <option value="all">All Topics</option>
+                    <% if (typeof topics !== 'undefined' && topics && topics.length > 0) { %>
+                        <% topics.forEach(topic => { %>
+                            <option value="<%= topic %>"><%= topic %></option>
+                        <% }); %>
+                    <% } %>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="lesson-teacher">Teacher</label>
+                <select id="lesson-teacher" class="lesson-filter">
+                    <option value="all">All Teachers</option>
+                    <% if (typeof teachers !== 'undefined' && teachers && teachers.length > 0) { %>
+                        <% teachers.forEach(teacher => { %>
+                            <option value="<%= teacher %>"><%= teacher %></option>
+                        <% }); %>
+                    <% } %>
+                </select>
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn" onclick="clearFilters()">Clear Filters</button>
+                <% if (typeof isTeacher !== 'undefined' && isTeacher) { %>
+                    <button class="add-lesson-btn" onclick="openAddModal()">+ Add Lesson</button>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lessons Grid -->
+    <div class="lessons-container">
+        <div class="lessons-grid">
+            <% if (typeof lessons !== 'undefined' && lessons && lessons.length > 0) { %>
+                    <% lessons.forEach((lesson, index) => { %>
+                    <div class="lesson-card-wrapper"
+                         data-lesson-id="<%= lesson.lessonid || index + 1 %>"
+                         data-lesson-topic="<%= lesson.topics || '' %>"
+                         data-lesson-teacher="<%= lesson.teacher || '' %>"
+                         data-lesson-title="<%= (lesson.lessonname || '').toLowerCase() %>"
+                         style="position: relative;">
+                        <% if (typeof isTeacher !== 'undefined' && isTeacher) { %>
+                            <button class="lesson-card-edit-btn"
+                                onclick="event.stopPropagation(); event.preventDefault(); openEditModal(<%= lesson.lessonid %>, '<%= String(lesson.lessonname || '').replace(/'/g, "\\'").replace(/"/g, '&quot;') %>', '<%= String(lesson.rawDate || '') %>', '<%= String(lesson.location || '').replace(/'/g, "\\'").replace(/"/g, '&quot;') %>', '<%= String(lesson.topics || '').replace(/'/g, "\\'").replace(/"/g, '&quot;') %>', '<%= String(lesson.description || '').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, "\\n").replace(/\r/g, "") %>', '<%= String(lesson.reading || '').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, "\\n").replace(/\r/g, "") %>', '<%= String(lesson.discussion || '').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, "\\n").replace(/\r/g, "") %>')"
+                                title="Edit Lesson">✎</button>
+                            <button class="lesson-card-delete-btn"
+                                onclick="event.stopPropagation(); event.preventDefault(); confirmDelete(<%= lesson.lessonid %>)"
+                                title="Delete Lesson">×</button>
+                        <% } %>
+                        <a href="/upcoming-lesson/<%= lesson.lessonid || index + 1 %>" 
+                           class="lesson-card"
+                           style="position: relative;">
+                            <div class="lesson-image">
+                                <%= lesson.lessonname || 'Untitled Lesson' %>
+                            </div>
+                            <div class="lesson-content">
+                                <div class="lesson-description">
+                                    <%= lesson.description || 'No description available.' %>
+                                </div>
+                                <% if (lesson.date) { %>
+                                    <div class="lesson-date">
+                                        <%= lesson.date %>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </a>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-lessons-message"
+                    style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: rgb(6, 40, 0);">
+                    <p>No upcoming lessons available at this time. Check back soon!</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Filter Functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const lessonSearchInput = document.getElementById('lesson-search');
+            const lessonTopicFilter = document.getElementById('lesson-topic');
+            const lessonTeacherFilter = document.getElementById('lesson-teacher');
+            const lessonWrappers = document.querySelectorAll('.lesson-card-wrapper');
+
+            function filterLessons() {
+                const searchValue = (lessonSearchInput ? lessonSearchInput.value : '').trim().toLowerCase();
+                const topicValue = lessonTopicFilter.value.trim();
+                const teacherValue = lessonTeacherFilter.value.trim();
+
+                lessonWrappers.forEach(wrapper => {
+                    const cardTopic = (wrapper.getAttribute('data-lesson-topic') || '').trim();
+                    const cardTeacher = (wrapper.getAttribute('data-lesson-teacher') || '').trim();
+                    const cardName = (wrapper.getAttribute('data-lesson-title') || '').toLowerCase();
+
+                    let showCard = true;
+
+                    if (searchValue && !cardName.includes(searchValue)) {
+                        showCard = false;
+                    }
+                    if (topicValue !== 'all' && cardTopic !== topicValue) {
+                        showCard = false;
+                    }
+                    if (teacherValue !== 'all' && cardTeacher !== teacherValue) {
+                        showCard = false;
+                    }
+
+                    wrapper.style.display = showCard ? 'block' : 'none';
+                });
+            }
+
+            if (lessonSearchInput) {
+                lessonSearchInput.addEventListener('input', filterLessons);
+            }
+            if (lessonTopicFilter) {
+                lessonTopicFilter.addEventListener('change', filterLessons);
+            }
+            if (lessonTeacherFilter) {
+                lessonTeacherFilter.addEventListener('change', filterLessons);
+            }
+
+            window.clearFilters = function () {
+                if (lessonSearchInput) {
+                    lessonSearchInput.value = '';
+                }
+                if (lessonTopicFilter) {
+                    lessonTopicFilter.value = 'all';
+                }
+                if (lessonTeacherFilter) {
+                    lessonTeacherFilter.value = 'all';
+                }
+                filterLessons();
+            };
+        });
+    </script>
+
+    <!-- Add/Edit Lesson Modal -->
+    <% if (typeof isTeacher !== 'undefined' && isTeacher) { %>
+        <div class="modal fade lesson-modal" id="lessonModal" tabindex="-1" aria-labelledby="lessonModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="lessonModalTitle">Add New Lesson</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="lessonForm" onsubmit="handleLessonSubmit(event)">
+                            <div class="mb-3">
+                                <label for="lessontitle" class="form-label">Lesson Title *</label>
+                                <input type="text" class="form-control" id="lessontitle" name="lessontitle" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lessondate" class="form-label">Date *</label>
+                                <input type="date" class="form-control" id="lessondate" name="lessondate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="classroom" class="form-label">Classroom</label>
+                                <input type="text" class="form-control" id="classroom" name="classroom">
+                            </div>
+                            <div class="mb-3">
+                                <label for="topic" class="form-label">Topic</label>
+                                <input type="text" class="form-control" id="topic" name="topic">
+                            </div>
+                            <div class="mb-3">
+                                <label for="lessonoverview" class="form-label">Lesson Overview</label>
+                                <textarea class="form-control" id="lessonoverview" name="lessonoverview" rows="4"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="readingmaterials" class="form-label">Reading Materials</label>
+                                <textarea class="form-control" id="readingmaterials" name="readingmaterials" rows="4"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="discussionquestions" class="form-label">Discussion Questions</label>
+                                <textarea class="form-control" id="discussionquestions" name="discussionquestions" rows="4"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Lesson</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
+    <script>
+        <% if (typeof isTeacher !== 'undefined' && isTeacher) { %>
+        function openAddModal() {
+            document.getElementById('lessonModalTitle').textContent = 'Add New Lesson';
+            document.getElementById('lessonForm').reset();
+            document.getElementById('lessonForm').setAttribute('data-mode', 'add');
+            document.getElementById('lessonForm').removeAttribute('data-lesson-id');
+            const modal = new bootstrap.Modal(document.getElementById('lessonModal'));
+            modal.show();
+        }
+        
+        function openEditModal(id, title, date, classroom, topic, overview, reading, discussion) {
+            document.getElementById('lessonModalTitle').textContent = 'Edit Lesson';
+            document.getElementById('lessonForm').setAttribute('data-mode', 'edit');
+            document.getElementById('lessonForm').setAttribute('data-lesson-id', id);
+            
+            // Populate form fields
+            document.getElementById('lessontitle').value = (title || '').replace(/\\'/g, "'");
+            document.getElementById('lessondate').value = date || '';
+            document.getElementById('classroom').value = (classroom || '').replace(/\\'/g, "'");
+            document.getElementById('topic').value = (topic || '').replace(/\\'/g, "'");
+            document.getElementById('lessonoverview').value = (overview || '').replace(/\\'/g, "'").replace(/\\n/g, '\n');
+            document.getElementById('readingmaterials').value = (reading || '').replace(/\\'/g, "'").replace(/\\n/g, '\n');
+            document.getElementById('discussionquestions').value = (discussion || '').replace(/\\'/g, "'").replace(/\\n/g, '\n');
+            
+            const modal = new bootstrap.Modal(document.getElementById('lessonModal'));
+            modal.show();
+        }
+        
+        function confirmDelete(id) {
+            const lessonCard = document.querySelector(`[data-lesson-id="${id}"]`);
+            const lessonName = lessonCard ? lessonCard.querySelector('.lesson-image')?.textContent?.trim() : 'this lesson';
+            if (confirm(`Are you sure you want to delete "${lessonName}"?\n\nThis action cannot be undone.`)) {
+                deleteLesson(id);
+            }
+        }
+        
+        function deleteLesson(lessonId) {
+            fetch('/upcoming-lesson/' + lessonId, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Lesson deleted successfully! Refreshing page...');
+                    window.location.reload();
+                } else {
+                    alert('Error: ' + (data.error || 'Failed to delete lesson'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting lesson. Please try again.');
+            });
+        }
+        
+        function handleLessonSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const mode = form.getAttribute('data-mode');
+            const lessonId = form.getAttribute('data-lesson-id');
+            
+            const lessontitle = document.getElementById('lessontitle').value;
+            const lessondate = document.getElementById('lessondate').value;
+            const classroom = document.getElementById('classroom').value;
+            const topic = document.getElementById('topic').value;
+            const lessonoverview = document.getElementById('lessonoverview').value;
+            const readingmaterials = document.getElementById('readingmaterials').value;
+            const discussionquestions = document.getElementById('discussionquestions').value;
+            
+            if (mode === 'add') {
+                // Add new lesson
+                fetch('/upcoming-lesson', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        lessontitle: lessontitle,
+                        lessondate: lessondate,
+                        classroom: classroom,
+                        topic: topic,
+                        lessonoverview: lessonoverview,
+                        readingmaterials: readingmaterials,
+                        discussionquestions: discussionquestions
+                    })
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => {
+                    if (data && data.error) {
+                        alert('Error: ' + data.error);
+                    } else {
+                        alert('Lesson added successfully! Refreshing page...');
+                        window.location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error adding lesson. Please try again.');
+                });
+            } else if (mode === 'edit') {
+                // Update existing lesson
+                fetch('/upcoming-lesson/' + lessonId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        _method: 'PUT',
+                        lessontitle: lessontitle,
+                        lessondate: lessondate,
+                        classroom: classroom,
+                        topic: topic,
+                        lessonoverview: lessonoverview,
+                        readingmaterials: readingmaterials,
+                        discussionquestions: discussionquestions
+                    })
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => {
+                    if (data && data.error) {
+                        alert('Error: ' + data.error);
+                    } else {
+                        alert('Lesson updated successfully! Refreshing page...');
+                        window.location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error updating lesson. Please try again.');
+                });
+            }
+            
+            const modal = bootstrap.Modal.getInstance(document.getElementById('lessonModal'));
+            if (modal) {
+                modal.hide();
+            }
+        }
+        <% } %>
+    </script>
+</body>
+</html>

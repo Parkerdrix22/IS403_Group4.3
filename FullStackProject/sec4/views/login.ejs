@@ -201,6 +201,14 @@
        <label for="newPassword" class="form-label">Password</label>
        <input type="password" id="newPassword" name="password" class="form-control" required>
       </div>
+      <div class="mb-3">
+       <label for="memberlevel" class="form-label">Role</label>
+       <select id="memberlevel" name="memberlevel" class="form-select" required>
+        <option value="">Select a role</option>
+        <option value="Member">Member</option>
+        <option value="Teacher">Teacher</option>
+       </select>
+      </div>
       <div class="d-grid">
        <button type="submit" class="btn btn-primary">Sign Up</button>
       </div>
@@ -230,6 +238,19 @@
 	   const loginForm = document.getElementById('login-form');
 	   const signupForm = document.getElementById('signup-form');
 	   const headerTitle = document.querySelector('.login-title');
+	   
+	   // Show signup form if show_signup is true (from server)
+	   var showSignup = false;
+	   <% if (typeof show_signup !== 'undefined' && show_signup) { %>
+	   showSignup = true;
+	   <% } %>
+	   if (showSignup) {
+	     if (signupToggle) signupToggle.style.display = 'none';
+	     if (loginForm) loginForm.style.display = 'none';
+	     if (signupForm) signupForm.style.display = 'block';
+	     if (headerTitle) headerTitle.textContent = 'Sign Up';
+	   }
+	   
 	   if (showSignupBtn && backToLoginBtn && signupToggle && loginForm && signupForm) {
 	     showSignupBtn.addEventListener('click', function(){
 	       signupToggle.style.display = 'none';
