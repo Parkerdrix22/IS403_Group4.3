@@ -120,8 +120,17 @@ function formatDate(dateValue) {
 }
 
 app.use((req, res, next) => {
-    // Allow access to login and lessons pages
-    if (req.path === '/' || req.path === '/login' || req.path === '/login' || req.path === '/upcoming-lesson' || req.path.startsWith('/upcoming-lesson/') || req.path === '/survey' || req.path.startsWith('/survey/')) {
+    // Allow access to public pages (login, signup, lessons, surveys)
+    if (
+        req.path === '/' ||
+        req.path === '/login' ||
+        req.path === '/signup' ||
+        req.path === '/upcoming-lesson' ||
+        req.path.startsWith('/upcoming-lesson/') ||
+        req.path === '/survey' ||
+        req.path.startsWith('/survey/') ||
+        req.path === '/feedback' // allow feedback landing to redirect to login as needed
+    ) {
         return next();
     }
     
@@ -162,6 +171,18 @@ app.post("/signup", async (req, res) => {
 	}
 	
 	try {
+		// Check if email already exists
+		const existingEmail = await knex('members')
+			.where('memberemail', email)
+			.first();
+		if (existingEmail) {
+			console.log("Email already exists:", email);
+			return res.render("login", {
+				error_message: "Email already in use. Please use a different email.",
+				show_signup: true
+			});
+		}
+
 		// Check if username already exists
 		const existingUser = await knex('login')
 			.where('username', username)
@@ -212,12 +233,11 @@ app.post("/signup", async (req, res) => {
 		
 		// Step 2: Insert into login table using the memberid
 		console.log("Inserting into login table with memberid:", memberid);
-		await knex('login')
-			.insert({
-				memberid: memberid,
-				username: username,
-				password: password
-			});
+		// login.memberid appears to be GENERATED ALWAYS; override to keep FK link
+		await knex.raw(
+			`insert into login (memberid, username, password) overriding system value values (?, ?, ?)`,
+			[memberid, username, password]
+		);
 		
 		console.log("Signup successful!");
 		
@@ -331,6 +351,88 @@ app.get("/dashboard", (req, res) => { // Also accessible as /home
 				upcomingLesson: null
 			});
 		});
+});
+
+// Survey responses summary (Teacher only)
+app.get("/survey-responses", async (req, res) => {
+	const userInfo = getUserInfo(req);
+	if (!userInfo || !userInfo.isManager) {
+		return res.redirect("/dashboard");
+	}
+
+	try {
+		// Lessons
+		const lessons = await knex('lesson')
+			.select('lessonid', 'lessontitle', 'lessondate')
+			.orderBy('lessondate', 'desc');
+
+		// Survey question definitions (response null) joined to lesson
+		const definitions = await knex('survey_response as sr')
+			.select('sr.lessonid', 'sr.question', 'sr.extracomments')
+			.whereNull('sr.response');
+
+		// Per-question averages joined to lesson
+		const averages = await knex('survey_response as sr')
+			.select('sr.lessonid', 'sr.question')
+			.avg({ avg_response: 'sr.response' })
+			.whereNotNull('sr.response')
+			.groupBy('sr.lessonid', 'sr.question');
+
+		// Overall lesson average (across all questions)
+		const lessonAverages = await knex('survey_response as sr')
+			.select('sr.lessonid')
+			.avg({ avg_response: 'sr.response' })
+			.whereNotNull('sr.response')
+			.groupBy('sr.lessonid');
+
+		const lessonsWithQuestions = lessons.map(lesson => {
+			// merge definitions and any questions that only exist in responses
+			const defs = definitions
+				.filter(d => d.lessonid === lesson.lessonid)
+				.sort((a, b) => {
+					const ai = parseInt(a.extracomments || '0', 10);
+					const bi = parseInt(b.extracomments || '0', 10);
+					return ai - bi;
+				});
+
+			// Collect all question texts from defs or responses
+			const questionsSet = new Set(defs.map(d => d.question));
+			averages
+				.filter(a => a.lessonid === lesson.lessonid)
+				.forEach(a => questionsSet.add(a.question));
+
+			const orderedQuestions = Array.from(questionsSet).map((q, idx) => {
+				const avg = averages.find(a => a.lessonid === lesson.lessonid && a.question === q);
+				return {
+					text: q,
+					average: avg ? Number(avg.avg_response).toFixed(2) : '—'
+				};
+			});
+
+			const overall = lessonAverages.find(a => a.lessonid === lesson.lessonid);
+
+			return {
+				lessonid: lesson.lessonid,
+				lessonname: lesson.lessontitle,
+				date: formatDate(lesson.lessondate),
+				overallAverage: overall ? Number(overall.avg_response).toFixed(2) : '—',
+				questions: orderedQuestions
+			};
+		});
+
+		res.render("survey-responses", {
+			user: userInfo,
+			lessons: lessonsWithQuestions,
+			error_message: ""
+		});
+	} catch (err) {
+		console.error("Error loading survey responses summary:", err);
+		res.render("survey-responses", {
+			user: userInfo,
+			lessons: [],
+			error_message: "Error loading survey responses."
+		});
+	}
 });
 
 // ============================================

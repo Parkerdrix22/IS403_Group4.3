@@ -215,6 +215,9 @@
                 <li><a href="/dashboard">HOME</a></li>
                 <li><a href="/upcoming-lesson">UPCOMING LESSONS</a></li>
                 <li><a href="/feedback">FEEDBACK</a></li>
+                <% if (typeof user !== 'undefined' && user && user.isManager) { %>
+                <li><a href="/survey-responses">SURVEY RESPONSES</a></li>
+                <% } %>
             </ul>
             <a href="/logout" class="login-pill">LOGOUT</a>
         </nav>
